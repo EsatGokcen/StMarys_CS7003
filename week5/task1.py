@@ -3,7 +3,7 @@
 
 # CONNECTING TO DATABASE
 
-from sqlalchemy import create_engine, inspect, MetaData, Table, Column, Integer, String
+from sqlalchemy import create_engine, inspect, select, MetaData, Table, Column, Integer, String
 
 engine = create_engine('sqlite://example.db', echo=False)
 metadata = MetaData()
@@ -37,6 +37,14 @@ with engine.connect() as connection:
         trans.commit()
         print("Transaction rolled back")
 
+# QUERY DATA
 
+with engine.connect() as connection:
+    stmt = select(employees)
+    result = connection.execute(stmt)
+    rows = result.fetchall()
+    print("\nTable employees':")
+    for row in rows:
+        print(row)
 
 
