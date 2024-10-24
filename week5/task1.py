@@ -15,7 +15,19 @@ metadata.create_all(engine)
 
 inspector = inspect(engine)
 tables = inspector.get_table_names()
-print(tables)
+
+with engine.connect() as connection:
+    trans = connection.begin()
+    try:
+        connection.execute(employees.insert(), [
+            {'first_name': 'Alex', 'last_name': 'Graham'},
+            {'first_name': 'Bobby', 'last_name': 'Bowl'}
+        ])
+        trans.commit()
+        print("\nData inserted successfully in table employees'")
+    except:
+        trans.commit()
+        print("Transaction rolled back")
 
 
 
