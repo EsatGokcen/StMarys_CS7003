@@ -11,26 +11,71 @@ metadata = MetaData()
 # DEFINE THE "AUTHORS" TABLE
 
 authors = Table('authors', metadata,
-                Column('id', ))
+                Column('id', Integer, primary_key=True),
+                Column('name' , String, nullable=False)
+                )
 
 # DEFINE THE "BOOKS" TABLE
+
+books = Table('books', metadata,
+              Column('id', Integer, primary_key=True),
+              Column('title', String, nullable=False),
+              Column('author_id', Integer, ForeignKey('authors.id'))
+              )
 
 #CREATE THE TABLES IN THE DATABASE
 
 metadata.create_all(engine)
 
-# USE THE INSPECTOR ......
+# USE THE INSPECTOR TO GET TABLE NAMES
+
+inspector = inspect(engine)
+tables = inspector.get_table_names()
+
+# CHECK IF 'AUTHORS' AND 'BOOKS' TABLES EXIST
+
+if 'authors' in tables:
+    print("Table 'authors' exists in the database.")
+else:
+    print("Table 'authors' does not exist in the database.")
+
+if 'books' in tables:
+    print("Table 'books' exists in the database.")
+else:
+    print("Table 'books' does not exist in the database.")
 
 # INSERT DATA INTO THE AUTHORS TABLE
-#with engine...
 
-# COMMIT THE TRANSACTION
+with engine.connect() as conn: #open a connection
+    trans = conn.begin() #begin a transaction
+    try:
+        conn.execute(insert(authors), [
+            {'name': 'J.K. Rowling'},
+            {'name': 'J.R.R Tolkien'}
+        ])
+        trans.commit() #commit the transaction
+        print("\nData inserted succesfully in the table 'authors'")
+    except:
+        trans.rollback() # Rollback the transaction in case of error
+        print("Transaction rolled back")
 
-# ROLLBACK THE TRANSACTION IN CASE OF ERROR......
+# INSERT DATA INTO THE BOOKS TABLE 
+
+with engine.connect() as conn: #open a connection
+    trans = conn.begin() #begin a transaction
+    try:
+        conn.execute(insert(books), [
+            {'title': 'Harry Potter and the Philosopher\'s Stone', 'author_id': 1},
+            {'title': 'The Hobbit', 'author_id': 2}
+        ])
+        trans.commit() #commit the transaction
+        print("\nData inserted succesfully in the table 'books'")
+    except:
+        trans.rollback() # Rollback the transaction in case of error
+        print("Transaction rolled back")
 
 # QUERY THE DATABASE
-
-# SHOW CONTENT OF  'AUTHORS' TABLE
+# SHOW CONTENT OF 'AUTHORS' TABLE
 
 with engine.connect() as conn:
     result = conn.execute(select(authors))
@@ -47,3 +92,10 @@ with engine.connect() as conn:
         print(row)
 
 #SHOW A BOOK AND ITS AUTHOR
+
+with engine.connect() as conn:
+    result = conn.execute(select(books.c.title, authors.c.name).select_from(
+        books.join(authors, books.c.author_id == authors.c.id)
+    ))
+    for row in result:
+        print(f"\nBook: {row[0]}, Authors: {row[1]}")
