@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, 
 
 # CREATE AN ENGINE AND METADATA OBJECT
 
-engine = create_engine('sqlite://library.db', echo=False)
+engine = create_engine('sqlite://library.db', echo=False) #invalid SQL library...
 metadata = MetaData()
 
 # DEFINE THE "AUTHORS" TABLE
