@@ -40,3 +40,13 @@ with engine.connect() as connection:
     except:
         trans.commit()
         print("Transaction rolled back")
+
+# QUERY DATA
+
+with engine.connect() as connection:
+    stmt = select(users)
+    result = connection.execute(stmt)
+    rows = result.fetchall()
+    print("\nTable users':")
+    for row in rows:
+        print(row)
