@@ -38,14 +38,40 @@ tables = inspector.get_table_names()
 with engine.connect() as connection:
     trans = connection.begin()
     try:
-        connection.execute(students.insert(), [
-            {'student_name': 'Alice Cooper', 'modules': 'Mathematics, Data Science'},
-            {'student_name': 'Robert Ludlum', 'modules': 'Mathematics, Robotics'},
-            {'student_name': 'Anita Kapur', 'modules': 'Artificial Inteligence, Robotics'},
-            {'student_name': 'James Colburn', 'modules': 'Data Science, Artificial Inteligence'}
+        connection.execute(customers.insert(), [
+            {'customer_name': 'James Bond', 'customer_email': 'bond@awl.com'},
+            {'customer_name': 'Alicia Arnold', 'customer_email': 'ali@yahoo.com'},
+            {'customer_name': 'Jonny Stecchino', 'customer_email': 'j.stec@virgilio.com'},
+            {'customer_name': 'Brenda Willow', 'customer_email': 'will@blue.com​'}
         ])
         trans.commit()
         print("\nData inserted successfully in table employees'")
     except:
+        trans.rollback()
+        print("Transaction rolled back")
+    
+    try:
+        connection.execute(products.insert(), [
+            {'product': 'Laptop', 'price': 852.5},
+            {'product': 'Smartphone', 'price': 312.9},
+            {'product': 'Headset', 'price': 25.3},
+            {'product': 'Tablet', 'price': 150}
+        ])
         trans.commit()
+        print("\nData inserted successfully in table employees'")
+    except:
+        trans.rollback()
+        print("Transaction rolled back")
+    
+    try:
+        connection.execute(orders.insert(), [
+            {'order_id': 1, 'customer_name': 'James Bond', 'orders': 'Laptop, Smartphone'},
+            {'order_id': 2, 'customer_name': 'Alicia Arnold', 'orders': 'Headset, Smartphone'},
+            {'order_id': 3, 'customer_name': 'Jonny Stecchino', 'orders': 'Tablet'},
+            {'order_id': 4, 'customer_name': 'Brenda Willow', 'orders': 'Laptop, Smartphone, Tablet'}
+        ])
+        trans.commit()
+        print("\nData inserted successfully in table employees'")
+    except:
+        trans.rollback()
         print("Transaction rolled back")
