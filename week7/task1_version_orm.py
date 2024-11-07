@@ -37,3 +37,11 @@ session.commit()
 for user in session.query(Enrolment).all():
     print(f"Name: {user.name}, Module: {user.module}")
 
+# NOT SURE HOW TO CHECK IF STUDENT ... IS ENROLLED IN MODULE ... , REMOVE STUDENT, 
+student = None # NOT FINISHED
+students = 'table' #NOT FINISHED
+if student in students: # NOT FINISHED
+    print("Removed student ... from module ...") # NOT FINISHED
+else: # NOT FINISHED
+    print("The student ... is not enrolled in module ...") # NOT FINISHED
+
