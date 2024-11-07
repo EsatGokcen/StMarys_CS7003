@@ -36,7 +36,7 @@ with engine.connect() as connection:
         trans.commit()
         print("\nData inserted successfully in table employees'")
     except:
-        trans.commit()
+        trans.rollback()
         print("Transaction rolled back")
 
 # QUERY DATA
