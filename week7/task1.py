@@ -49,4 +49,11 @@ with engine.connect() as connection:
     for row in rows:
         print(row)
 
+# NOT SURE HOW TO CHECK IF STUDENT ... IS ENROLLED IN MODULE ... , REMOVE STUDENT, 
+student = None # NOT FINISHED
+if student in students: # NOT FINISHED
+    print("Removed student ... from module ...") # NOT FINISHED
+else: # NOT FINISHED
+    print("The student ... is not enrolled in module ...") # NOT FINISHED
+
 # you can write the same code using sqlalchemy orm which is more sophisticated and better
