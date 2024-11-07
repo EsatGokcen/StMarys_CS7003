@@ -45,7 +45,7 @@ with engine.connect() as connection:
     stmt = select(students)
     result = connection.execute(stmt)
     rows = result.fetchall()
-    print("\nTable employees':")
+    print("\nTable students':")
     for row in rows:
         print(row)
 
