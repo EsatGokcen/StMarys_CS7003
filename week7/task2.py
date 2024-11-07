@@ -3,16 +3,27 @@
 
 # CONNECTING TO DATABASE
 
-from sqlalchemy import create_engine, inspect, select, MetaData, Table, Column, Integer, String
+from sqlalchemy import create_engine, inspect, select, MetaData, Table, Column, Integer, String, Float
 
 engine = create_engine('sqlite://ecommerce.db', echo=False)
 metadata = MetaData()
 
-# CREATING A TABLE
+# CREATING THE TABLES
 
-students = Table('students', metadata,
-                  Column('student_name',String, primary_key=True),
-                  Column('modules', String),
+customers = Table('customers', metadata,
+                  Column('customer_name',String, primary_key=True),
+                  Column('customer_email', String)
+)
+
+products = Table('products', metadata,
+                 Column('product', String, primary_key=True),
+                 Column('price', Float)
+)
+
+orders = Table('orders', metadata,
+               Column('order_id', Integer, primary_key=True),
+               Column('customer_name', String),
+               Column('orders', String)
 )
 
 metadata.create_all(engine)
