@@ -75,3 +75,22 @@ with engine.connect() as connection:
     except:
         trans.rollback()
         print("Transaction rolled back")
+
+# QUERY DATA
+
+with engine.connect() as connection:
+    stmt = select(orders)
+    result = connection.execute(stmt)
+    rows = result.fetchall()
+    print("\nTable orders':")
+    for row in rows:
+        print(row)
+
+with engine.connect() as connection:
+    stmt = select(products)
+    result = connection.execute(stmt)
+    rows = result.fetchall()
+    print("\nTable products':")
+    for row in rows:
+        print(row)
+
