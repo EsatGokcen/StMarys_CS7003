@@ -36,3 +36,15 @@ class Product(Base):
     # Relationship to the Order class through the order_product_table​
     orders = relationship('Order', secondary=order_product_table, back_populates='products')
 
+# Define the Order class​
+class Order(Base):
+    __tablename__ = 'orders'
+
+    id = Column(Integer, primary_key=True)
+    customer_id = Column(Integer, ForeignKey('customers.id'))
+
+    # Relationship to the Customer class​
+    customer = relationship('Customer', back_populates='orders')
+
+    # Relationship to the Product class through the order_product_table​
+    products = relationship('Product', secondary=order_product_table, back_populates='orders')
