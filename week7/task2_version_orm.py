@@ -24,3 +24,15 @@ class Customer(Base):
 
 # Relationship to the order class
 orders = relationship('Order', back_populates='customer')
+
+# Define the Product class​
+class Product(Base):
+    __tablename__ = 'products'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    price = Column(Float, nullable=False)
+
+    # Relationship to the Order class through the order_product_table​
+    orders = relationship('Order', secondary=order_product_table, back_populates='products')
+
