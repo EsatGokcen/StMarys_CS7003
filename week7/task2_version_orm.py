@@ -48,3 +48,19 @@ class Order(Base):
 
     # Relationship to the Product class through the order_product_table​
     products = relationship('Product', secondary=order_product_table, back_populates='orders')
+
+# Create all tables in the engine​
+Base.metadata.create_all(engine)
+
+# Create a new session​
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# Add customers​
+customer1 = Customer(name='James Bond', email='bond@awl.com')
+customer2 = Customer(name='Alicia Arnold', email='ali@yahoo.com')
+customer3 = Customer(name = 'Jonny Stecchino', email = 'j.stec@virgilio.com')
+customer4 = Customer(name = 'Brenda Willow', email = 'will@blue.com')
+
+session.add_all([customer1, customer2, customer3, customer4])
+session.commit()
