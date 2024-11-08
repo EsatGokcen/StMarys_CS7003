@@ -96,3 +96,12 @@ order4.products.append(product4)
 session.add(order4)
 
 session.commit()
+
+# Query the database​
+for order in session.query(Order).all():
+    print(f'Order {order.id} by {order.customer.name}:')
+    for product in order.products:
+        print(f'  - {product.name} at £{product.price}')
+
+# Close the session​
+session.close()
