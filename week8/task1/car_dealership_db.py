@@ -44,9 +44,6 @@ specific_cars1 = session.query(Cars).filter(and_(Cars.make == 'Toyota', Cars.yea
 for car in specific_cars1:
     print(car.make, car.model, car.year, car.price, car.mileage, car.date_added)
 
-# specific_cars1 = session.query(Cars).filter(Cars.year > 2015, Cars.price < 20000).all()
-#for car in specific_cars1:
-#    print(f'\n\n\n{car.make}, {car.model}')
 # Toyota or Honda cars with price less than £20000 and mileage below 50000
 # Cars added to the database between 1st January 2023 and 31st December 2023
 # Cars with mileage between 10000 and 50000 ​​
