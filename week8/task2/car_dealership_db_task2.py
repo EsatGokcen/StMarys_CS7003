@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Table, Column, Integer, String, Float, and_
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 import os
 
 # Create an engine that stores data in the local directory's car_dealership.db file
@@ -7,6 +7,8 @@ engine = create_engine('sqlite:///car_dealership.db')
 
 # Base class for classes definitions
 Base = declarative_base()
+
+# Association table for relationships between classes 
 
 # Define the cars class
 class Cars(Base):
@@ -20,12 +22,20 @@ class Cars(Base):
     mileage = Column(Float, nullable=False)
     date_added = Column(String, nullable=False)
 
+    # Relationships 
+
+    sales = relationship('Sales', back_populates='Cars') # one-to-many relationship
+
 # Define the salespersons class
 class SalesPersons(Base):
     __tablename__ = 'salespersons'
 
     id = Column(Integer, nullable=False, primary_key=True)
     name = Column(String, nullable=False)
+
+    # Relationships
+
+    sales = relationship('Sales', back_populates='Salespersons') # one-to-many relationship
 
 # Define the sales class
 class Sales(Base):
@@ -36,6 +46,11 @@ class Sales(Base):
     salesperson = Column(String, nullable=False)
     sale_date = Column(String, nullable=False)
     sale_price = Column(Integer, nullable=False)
+
+    # Relationships
+
+    car = relationship('Cars', back_populates='Sales') # many-to-one relationship with the Car class​
+    salesperson = relationship('Salespersons', back_populates='Sales') # many-to-one relationship with the Salesperson class. 
 
 # Create all tables in the engine​
 Base.metadata.create_all(engine)
@@ -75,6 +90,25 @@ sale8 = Sales(car = 'Ford', salesperson = 'Martin Yates', sale_date = '19/09/202
 
 session.add_all([sale1, sale2, sale3, sale4, sale5, sale6, sale7, sale8])
 session.commit()
+
+# Print tables​
+
+cars = session.query(Cars).all()
+print("\nCars:")
+for car in cars:
+    print(f"ID: {car.id}, Make: {car.make}, Model: {car.model}, Year: {car.year}, Price: {car.price}, Mileage: {car.mileage}, Date Added: {car.date_added}")
+
+salespersons = session.query(SalesPersons).all()
+print("\nSalespersons:")
+for salesperson in salespersons:
+    print(f"ID: {salesperson.id}, Name: {salesperson.name}")
+
+sales = session.query(Sales).all()
+print("\nSales:")
+for sale in sales:
+    print(f"Car ID: {sale.car_id}, Salesperson ID: {sale.salesperson_id}, Sale date: {sale.sale_date}, Sale price: {sale.sale_price}")
+
+#Query the Data
 
 # Remove the Database after Queries complete.
 
