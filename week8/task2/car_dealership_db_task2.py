@@ -63,6 +63,19 @@ salesperson4 = SalesPersons(name = 'Martin Yates')
 session.add_all([salesperson1, salesperson2, salesperson3, salesperson4])
 session.commit()
 
+# Add Sales info to Sales table
+sale1 = Sales(car = 'Toyota', salesperson = 'Callum Jones', sale_date = '05/04/2023', sale_price = 17500)
+sale2 = Sales(car = 'Honda', salesperson = 'Malcom Brenner', sale_date = '10/05/2023', sale_price = 19000)
+sale3 = Sales(car = 'Ford', salesperson = 'Jennifer Finnegan', sale_date = '30/03/2024', sale_price = 36500)
+sale4 = Sales(car = 'Renault', salesperson = 'Martin Yates', sale_date = '28/05/2024', sale_price = 6520)
+sale5 = Sales(car = 'Skoda', salesperson = 'Malcom Brenner', sale_date = '05/07/2024', sale_price = 41000)
+sale6 = Sales(car = 'Toyota', salesperson = 'Jennifer Finnegan', sale_date = '30/08/2024', sale_price = 23800)
+sale7 = Sales(car = 'Ford', salesperson = 'Callum Jones', sale_date = '02/09/2024', sale_price = 31300)
+sale8 = Sales(car = 'Ford', salesperson = 'Martin Yates', sale_date = '19/09/2024', sale_price = 41200)
+
+session.add_all([sale1, sale2, sale3, sale4, sale5, sale6, sale7, sale8])
+session.commit()
+
 # Remove the Database after Queries complete.
 
 os.remove('car_dealership.db')
