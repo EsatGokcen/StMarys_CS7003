@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Table, Column, Integer, String, Float, and
 from sqlalchemy.orm import declarative_base, sessionmaker
 import os
 
-# Create an engine that stores data in the local directory's ecommerce.db file
+# Create an engine that stores data in the local directory's car_dealership.db file
 engine = create_engine('sqlite:///car_dealership.db')
 
 # Base class for classes definitions
@@ -32,7 +32,10 @@ class Sales(Base):
     __tablename__ = 'sales'
 
     id = Column(Integer, nullable=False, primary_key=True)
-
+    car = Column(String, nullable=False)
+    salesperson = Column(String, nullable=False)
+    sale_date = Column(String, nullable=False)
+    sale_price = Column(Integer, nullable=False)
 
 # Create all tables in the engine​
 Base.metadata.create_all(engine)
@@ -41,7 +44,7 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Add Cars 
+# Add Cars to Cars table
 car1 = Cars(make = 'Toyota', model = 'Camry', year = 2018, price = 18000, mileage = 31000.00, date_added = '15/01/2023')
 car2 = Cars(make = 'Honda', model = 'Civic', year = 2019, price = 19500, mileage = 22000.00, date_added = '20/02/2023')
 car3 = Cars(make = 'Ford', model = 'Focus', year = 2017, price = 15000, mileage = 45000.00, date_added = '10/03/2023')
@@ -49,6 +52,15 @@ car4 = Cars(make = 'Renault', model = 'Clio', year = 2021, price = 25000, mileag
 car5 = Cars(make = 'Skoda', model = 'Octavia', year = 2020, price = 21500, mileage = 18000.00, date_added = '23/09/2024')
 
 session.add_all([car1, car2, car3, car4, car5])
+session.commit()
+
+# Add Salespersons to Salespersons table
+salesperson1 = SalesPersons(name = 'Callum Jones')
+salesperson2 = SalesPersons(name = 'Malcom Brenner')
+salesperson3 = SalesPersons(name = 'Jennifer Finnegan')
+salesperson4 = SalesPersons(name = 'Martin Yates')
+
+session.add_all([salesperson1, salesperson2, salesperson3, salesperson4])
 session.commit()
 
 # Remove the Database after Queries complete.
