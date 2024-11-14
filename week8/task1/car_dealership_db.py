@@ -11,6 +11,7 @@ Base = declarative_base()
 class Cars(Base):
     __tablename__ = 'cars'
 
+    id = Column(Integer, primary_key=True)
     make = Column(String, nullable=False)
     model = Column(String, nullable=False)
     year = Column(Integer, nullable=False)
@@ -38,8 +39,9 @@ session.commit()
 # Query the data:
 # Toyota cars manufactured after 2015 with price less than £20000
 
-specific_cars1 = session.query(Cars).filter(and_(Cars.year > 2015, Cars.price < 20000)).first()
-print(f'\n{specific_cars1.make}, {specific_cars1.model}, {specific_cars1.year}, {specific_cars1.price}, {specific_cars1.mileage}, {specific_cars1.date_added}.')
+specific_cars1 = session.query(Cars).filter(Cars.year > 2015, Cars.price < 20000).all()
+for car in specific_cars1:
+    print(f'\n\n\n{car.make}, {car.model}')
 # Toyota or Honda cars with price less than £20000 and mileage below 50000
 # Cars added to the database between 1st January 2023 and 31st December 2023
 # Cars with mileage between 10000 and 50000 ​​
