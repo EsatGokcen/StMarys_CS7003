@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine, Table, Column, Integer, String, Float, DateTime, and_
+from sqlalchemy import create_engine, Table, Column, Integer, String, Float, and_
 from sqlalchemy.orm import declarative_base, sessionmaker
+import os
 
 # Create an engine that stores data in the local directory's ecommerce.db file
 engine = create_engine('sqlite:///car_dealership.db')
@@ -17,7 +18,7 @@ class Cars(Base):
     year = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
     mileage = Column(Float, nullable=False)
-    date_added = Column(DateTime, nullable=False)
+    date_added = Column(String, nullable=False)
 
 # Create all tables in the engine​
 Base.metadata.create_all(engine)
@@ -39,12 +40,20 @@ session.commit()
 # Query the data:
 # Toyota cars manufactured after 2015 with price less than £20000
 
-specific_cars1 = session.query(Cars).filter(Cars.year > 2015, Cars.price < 20000).all()
+specific_cars1 = session.query(Cars).filter(and_(Cars.make == 'Toyota', Cars.year > 2015, Cars.price < 20000))
 for car in specific_cars1:
-    print(f'\n\n\n{car.make}, {car.model}')
+    print(car.make, car.model, car.year, car.price, car.mileage, car.date_added)
+
+# specific_cars1 = session.query(Cars).filter(Cars.year > 2015, Cars.price < 20000).all()
+#for car in specific_cars1:
+#    print(f'\n\n\n{car.make}, {car.model}')
 # Toyota or Honda cars with price less than £20000 and mileage below 50000
 # Cars added to the database between 1st January 2023 and 31st December 2023
 # Cars with mileage between 10000 and 50000 ​​
 # Cars where the model's name contains 'Cl’
 # Cars where the price is not null
 # Cars that either Toyota, Honda, or Ford
+
+# Remove the Database after Queries complete.
+
+os.remove('car_dealership.db')
